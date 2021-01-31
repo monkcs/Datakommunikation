@@ -14,6 +14,3 @@ client.out: client.cpp makefile
 
 clean:
 	rm *.out
-
-run: server.out client.out
-	./server.out
