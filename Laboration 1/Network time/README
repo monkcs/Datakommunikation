@@ -1,0 +1,15 @@
+Requirements:
+    make
+    g++ (with support for C++20)
+
+Build:
+    Run 'make all'
+
+Run:
+    Server first:
+        Port 37 (default, privileged access required): './server.out' 
+        Specified port: './server.out 1234'
+
+    Client:
+        Port 37 (default): './client.out' 
+        Specified port: './client.out 1234'
