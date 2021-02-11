@@ -1,3 +1,4 @@
+#include <boost/asio.hpp>
 #include <filesystem>
 #include <iostream>
 #include <string>
@@ -319,7 +320,7 @@ int main()
 	{
 		const std::vector<Field> fields {Field {FieldName::Connection, "close"}};
 
-		const auto header = Header {StatusLine {Protocol {Version::HTTP1}, Status {404}}, fields};
+		const auto header = Header {StatusLine {Protocol {Version::HTTP1}, Status {200}}, fields};
 
 		std::cout << header;
 	}
