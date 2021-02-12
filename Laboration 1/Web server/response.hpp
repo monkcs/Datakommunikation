@@ -42,14 +42,11 @@ class Response
 	friend std::ostream& operator<<(std::ostream& stream, const Response& response)
 	{
 		stream << response.header;
-		stream << "\r\n\r\n";
 
 		for (const auto character : response.body)
 		{
 			stream << character;
 		}
-
-		stream << "\r\n\r\n";
 
 		return stream;
 	};
