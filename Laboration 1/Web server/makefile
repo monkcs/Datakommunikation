@@ -2,10 +2,11 @@ COMPILER = g++ -O3 -march=native -fwhole-program -flto -Wpedantic -Wall -std=c++
 
 .PHONY: all clean run
 
-all: request
+all: server
 
-request: request.cpp makefile
-	$(COMPILER) request.cpp -o $@.out
+server: server.cpp request.cpp makefile
+	$(COMPILER)	server.cpp -o $@.out
+	#$(COMPILER) request.cpp -o $@.out
 
 test:
 	$(COMPILER) test-server.cpp -o server.out -lpthread -lboost_system 
