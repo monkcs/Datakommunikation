@@ -11,13 +11,13 @@
 class Server
 {
   public:
-	Server() {};
+	Server(const uint16_t port) : port {port} {};
 
 	void run() const
 	{
 		boost::asio::io_service io_service;
 		boost::asio::ip::tcp::acceptor acceptor_server(io_service,
-													   boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), 9999));
+													   boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port));
 
 		while (true)
 		{
@@ -81,6 +81,8 @@ class Server
 	};
 
   protected:
+	uint16_t port;
+
 	std::string receive(boost::asio::ip::tcp::socket& socket) const
 	{
 		boost::asio::streambuf buffert;
@@ -94,8 +96,10 @@ class Server
 	}
 };
 
-int main()
+int main(const int count, char const* const arguments[])
 {
-	Server server;
+	const uint16_t port = (count > 1) ? std::stoul(arguments[1]) : 80;
+
+	Server server {port};
 	server.run();
 }
