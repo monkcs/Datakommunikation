@@ -37,23 +37,24 @@ class Header
 class Response
 {
   public:
-	Response(const Header header, const std::vector<char> body = {}) : header {header}, body {body} {};
+	Response(const Header header, const std::string body = {}) : header {header}, body {body} {};
 
 	friend std::ostream& operator<<(std::ostream& stream, const Response& response)
 	{
 		stream << response.header;
-
-		for (const auto character : response.body)
-		{
-			stream << character;
-		}
+		stream << response.body;
+		/*
+				for (const auto character : response.body)
+				{
+					stream << character;
+				}*/
 
 		return stream;
 	};
 
   protected:
 	Header header;
-	std::vector<char> body;
+	std::string body;
 };
 
 #endif
