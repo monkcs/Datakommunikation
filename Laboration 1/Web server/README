@@ -1,0 +1,14 @@
+Requirements:
+    make
+    g++ (with support for C++20)
+    Boost C++ library
+        Debian based: apt-get install libboost-all-dev
+        Fedora based: dnf install boost-devel
+
+
+Build:
+    Run 'make all'
+
+Run:
+    Port 80 (default, privileged access required): './server.out' 
+    Specified port: './server.out xxxx'
