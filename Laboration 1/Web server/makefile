@@ -5,7 +5,7 @@ COMPILER = g++ -O3 -march=native -fwhole-program -flto -Wpedantic -Wall -std=c++
 all: server
 
 server: server.cpp makefile
-	$(COMPILER)	server.cpp -o $@.out
+	$(COMPILER)	server.cpp -lpthread -lboost_system -o $@.out
 
 clean:
 	rm *.out
