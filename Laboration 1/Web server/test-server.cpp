@@ -1,9 +1,10 @@
 // Server-side Synchronous Chatting Application
 // using C++ boost::asio
 
+#include "response.hpp"
+
 #include <boost/asio.hpp>
 #include <iostream>
-
 using namespace std;
 using namespace boost::asio;
 using namespace boost::asio::ip;
@@ -34,41 +35,23 @@ int main(int argc, char* argv[])
 	// waiting for connection
 	acceptor_server.accept(server_socket);
 
-	// Reading username
-	string u_name = getData(server_socket);
-	// Removing "\n" from the username
-	u_name.pop_back();
-
 	// Replying with default mesage to initiate chat
 	string response, reply;
-	reply = "Hello " + u_name + "!";
-	cout << "Server: " << reply << endl;
-	sendData(server_socket, reply);
 
 	while (true)
 	{
-		// Fetching response
 		response = getData(server_socket);
 
-		// Popping last character "\n"
-		response.pop_back();
+		const auto fields = std::vector<Field> {Field {FieldName::Connection, "close"}};
+		const auto header = Header {StatusLine {Protocol {Version::HTTP1}, Status {200}}, fields};
+		const auto response = Response {header, std::vector<char> {'h', 'e', 'j'}};
 
-		// Validating if the connection has to be closed
-		if (response == "exit")
-		{
-			cout << u_name << " left!" << endl;
-			break;
-		}
-		cout << u_name << ": " << response << endl;
-
-		// Reading new message from input stream
-		cout << "Server"
-			 << ": ";
-		getline(cin, reply);
+		std::ostringstream stream;
+		stream << response;
+		reply = stream.str();	 //"HTTP/1.1 200 OK\r\nConnection: close\r\n\r\nhello\r\n\r\n";
 		sendData(server_socket, reply);
-
-		if (reply == "exit")
-			break;
+		continue;
+		// Fetching response
 	}
 	return 0;
 }
