@@ -1,6 +1,6 @@
 Requirements:
     make
-    g++ (with support for C++20)
+    g++ version >= 10.0 (with support for C++20)
     Boost C++ library
         Debian based: apt-get install libboost-all-dev
         Fedora based: dnf install boost-devel
