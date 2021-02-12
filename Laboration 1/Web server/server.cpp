@@ -30,9 +30,6 @@ class Server
 		}
 	};
 
-	// reading html file test
-	void html_test() { std::cout << getHTML("website - Copy.html"); };
-
   private:
 	std::string getHTML(std::string filename)
 	{
@@ -51,6 +48,5 @@ class Server
 
 int main()
 {
-	Server server {};
-	server.html_test();
+
 }
