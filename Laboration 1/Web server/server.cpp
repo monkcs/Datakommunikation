@@ -4,4 +4,14 @@
 #include <string>
 #include <vector>
 
+class Server
+{
+  public:
+	Server() {};
+
+	void run() {
+
+	};
+};
+
 int main() { }
