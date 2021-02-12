@@ -3,6 +3,7 @@
 #include <boost/asio.hpp>
 #include <filesystem>
 #include <iostream>
+#include <ranges>
 #include <string>
 #include <vector>
 
@@ -29,4 +30,8 @@ class Server
 	};
 };
 
-int main() { }
+int main()
+{
+	Server t;
+	t.run();
+}
