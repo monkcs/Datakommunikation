@@ -43,11 +43,6 @@ class Response
 	{
 		stream << response.header;
 		stream << response.body;
-		/*
-				for (const auto character : response.body)
-				{
-					stream << character;
-				}*/
 
 		return stream;
 	};
