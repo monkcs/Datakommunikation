@@ -1,6 +1,8 @@
 Requirements:
     make
     g++ version >= 10.0 (with support for C++20)
+        (Debian based may need to: apt-get install g++-10)
+        
     Boost C++ library
         Debian based: apt-get install libboost-all-dev
         Fedora based: dnf install boost-devel
