@@ -4,6 +4,7 @@
 #include "protocol.hpp"
 
 #include <algorithm>
+#include <filesystem>
 #include <ranges>
 #include <string>
 #include <vector>
@@ -12,6 +13,10 @@ class Request
 {
   public:
 	Request(const std::string request) { parse(request); };
+
+	Method method;
+	std::string path;
+	Protocol protocol;
 
   protected:
 	void parse(std::string request)
@@ -45,11 +50,17 @@ class Request
 			throw std::runtime_error {"Unsupported request method"};
 		}
 
-		if (properties.at(1) != "")
+		if (properties.at(1) == "/")
 		{
-			path = properties.at(2)
+			path = "index.html";
 		}
 		else
+		{
+			path = properties.at(1);
+			path.erase(std::remove(path.begin(), path.end(), '/'), path.end());
+		}
+
+		if (!std::filesystem::exists(path))
 		{
 			throw std::runtime_error {"Invalid file path"};
 		}
@@ -63,10 +74,6 @@ class Request
 			throw std::runtime_error {"Unsupported http version"};
 		}
 	};
-
-	Method method;
-	std::string path;
-	Protocol protocol;
 };
 
 #endif
