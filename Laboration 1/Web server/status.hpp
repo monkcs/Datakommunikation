@@ -20,6 +20,8 @@ class Status
 		return stream;
 	};
 
+	operator std::string() const { return response; };
+
   protected:
 	unsigned int code;
 	std::string response;
