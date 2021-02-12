@@ -6,6 +6,7 @@
 #include <ranges>
 #include <string>
 #include <vector>
+#include <fstream>
 
 class Server
 {
@@ -28,10 +29,33 @@ class Server
 			const auto response = Response {header};
 		}
 	};
+
+	//reading html file test
+	void html_test(){
+		std::cout << getHTML("website - Copy.html");
+	};
+
+	private:
+		std::string getHTML(std::string filename){
+			std::string text_line; //the current line read from the file
+			std::string output = "";
+			std::ifstream html_file(filename); 
+
+			while(std::getline(html_file, text_line)){
+				output += text_line + "\n"; //take the current line and appends it to the end of output getline removes the "\n" so I add it to the end of every line so the fromating of the text remains the same
+			}
+			return output;
+		};
 };
 
+<<<<<<< Updated upstream
 int main()
 {
 	Server t;
 	t.run();
+=======
+int main() { 
+	Server server{};
+	server.html_test();
+>>>>>>> Stashed changes
 }
