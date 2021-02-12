@@ -1,7 +1,7 @@
+#include "request.hpp"
 #include "response.hpp"
 
 #include <boost/asio.hpp>
-#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <ranges>
@@ -13,25 +13,59 @@ class Server
   public:
 	Server() {};
 
-	void run()
+	void run() const
+	{
+		boost::asio::io_service io_service;
+		boost::asio::ip::tcp::acceptor acceptor_server(io_service,
+													   boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), 9999));
+
+		while (true)
+		{
+			boost::asio::ip::tcp::socket server_socket(io_service);
+
+			// waiting for connection
+			acceptor_server.accept(server_socket);
+
+			try
+			{
+				const Request request {receive(server_socket)};
+
+				send(server_socket, handle(request));
+			}
+			catch (const std::runtime_error&)
+			{
+				send(server_socket, error());
+			}
+
+			server_socket.close();
+		}
+	}
+
+	std::string handle(const Request request) const
 	{
 		const auto fields = std::vector<Field> {Field {FieldName::Connection, "close"}};
 
-		std::string path {};
-		if (path == "valid")	// test case
-		{
-			const auto header = Header {StatusLine {Protocol {Version::HTTP1}, Status {200}}, fields};
-			const auto response = Response {header, std::vector<char> {'h', 'e', 'j'}};
-		}
-		else
-		{
-			const auto header = Header {StatusLine {Protocol {Version::HTTP1}, Status {404}}, fields};
-			const auto response = Response {header};
-		}
+		const auto header = Header {StatusLine {Protocol {Version::HTTP1}, Status {200}}, fields};
+		const auto response = Response {header, getFile(request.path)};
+
+		std::ostringstream stream;
+		stream << response;
+		return stream.str();
 	};
 
-  private:
-	std::string getHTML(std::string filename)
+	std::string error() const
+	{
+		const auto fields = std::vector<Field> {Field {FieldName::Connection, "close"}};
+
+		const auto header = Header {StatusLine {Protocol {Version::HTTP1}, Status {404}}, fields};
+		const auto response = Response {header, Status {404}};
+
+		std::ostringstream stream;
+		stream << response;
+		return stream.str();
+	}
+
+	std::string getFile(std::string filename) const
 	{
 		std::string text_line;	  // the current line read from the file
 		std::string output = "";
@@ -42,11 +76,26 @@ class Server
 			output += text_line + "\n";	   // take the current line and appends it to the end of output getline removes the "\n"
 										   // so I add it to the end of every line so the fromating of the text remains the same
 		}
+
 		return output;
 	};
+
+  protected:
+	std::string receive(boost::asio::ip::tcp::socket& socket) const
+	{
+		boost::asio::streambuf buffert;
+		boost::asio::read_until(socket, buffert, "\n");
+		return boost::asio::buffer_cast<const char*>(buffert.data());
+	}
+
+	void send(boost::asio::ip::tcp::socket& socket, const std::string& message) const
+	{
+		write(socket, boost::asio::buffer(message));
+	}
 };
 
 int main()
 {
-
+	Server server;
+	server.run();
 }
