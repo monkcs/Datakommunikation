@@ -27,22 +27,15 @@ bool certify(struct pkt* const package)
 
 bool verify(struct pkt* const package)
 {
-	if (package->checksum != 0)
-	{
-		const int calculated = package->checksum;
-		package->checksum = 0;
+	const int calculated = package->checksum;
+	package->checksum = 0;
 
-		if (certify(package))
+	if (certify(package))
+	{
+		if (calculated == package->checksum)
 		{
-			if (calculated == package->checksum)
-			{
-				package->checksum = 0;
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			package->checksum = 0;
+			return true;
 		}
 		else
 		{
