@@ -20,7 +20,6 @@ void certify(struct pkt* const package)
 bool verify(struct pkt* const package)
 {
 	const int calculated = package->checksum;
-
 	certify(package);
 
 	return calculated == package->checksum;

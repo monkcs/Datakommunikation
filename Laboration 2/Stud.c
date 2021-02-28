@@ -6,48 +6,81 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* The current package being transmitted by A */
+struct pkt buffer;
+
+/* The sequence counter for B */
+size_t B_sequence = 1;
+
+/* To signal if A is sending */
+bool transit = false;
+
+void A_init()
+{
+	buffer.seqnum = 0;
+	buffer.acknum = 0;
+}
+
+void A_send()
+{
+	tolayer3(0, buffer);
+	starttimer(0, 15.0);
+}
+
 /* A Send */
 void A_output(struct msg message)
 {
-	struct pkt packet = {.acknum = 0, .seqnum = 0, .checksum = 0};
-	memcpy(packet.payload, message.data, sizeof(message.data));
+	if (!transit)
+	{
+		transit = true;
 
-	certify(&packet);
+		buffer.seqnum++;
+		buffer.acknum++;
+		memcpy(buffer.payload, message.data, sizeof(message.data));
+		certify(&buffer);
 
-	tolayer3(1, packet);
+		A_send();
+	}
 }
 
-/* B Send */
-void B_output(struct msg message) /* need be completed only for extra credit */ { }
-
-/* A Recive */ /* called from layer 3, when a packet arrives for layer 4 */
-void A_input(struct pkt packet) { }
+/* A Recive */
+void A_input(struct pkt packet)
+{
+	if (verify(&packet))
+	{
+		if (packet.acknum == buffer.seqnum)
+		{
+			transit = false;
+			stoptimer(0);
+		}
+	}
+}
 
 /* called when A's timer goes off */
-void A_timerinterrupt() { }
+void A_timerinterrupt() { A_send(); }
 
-/* the following routine will be called once (only) before any other */
-/* entity A routines are called. You can use it to do any initialization */
-void A_init() { }
+void B_timerinterrupt() { }
+void B_init() { }
+void B_output(struct msg message) { }
 
-/* Note that with simplex transfer from a-to-B, there is no B_output() */
-
-/* B Recive */ /* called from layer 3, when a packet arrives for layer 4 at B*/
+/* B Recive */
 void B_input(struct pkt packet)
 {
 	if (verify(&packet))
 	{
-		tolayer5(1, packet.payload);
-	}
-	else
-	{
-		tolayer3(0, packet);
+		tolayer3(1, packet);
+
+		if (packet.seqnum == B_sequence)
+		{
+			printf("Sequence: %i, payload: ", packet.seqnum);
+			for (size_t i = 0; i < 20; i++)
+			{
+				printf("%c", packet.payload[i]);
+			}
+			printf("\n");
+
+			tolayer5(1, packet.payload);
+			B_sequence++;
+		}
 	}
 }
-
-/* called when B's timer goes off */
-void B_timerinterrupt() { }
-
-/* the following rouytine will be called once (only) before any other */
-/* entity B routines are called. You can use it to do any initialization */
-void B_init() { }
