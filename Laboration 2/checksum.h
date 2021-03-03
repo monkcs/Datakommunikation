@@ -1,6 +1,6 @@
 #pragma once
 
-/* The checksum mathod is the same as the algorithm used in TCP.*/
+/* The checksum method is the same as the algorithm used in TCP.*/
 
 #include "Stud.h"
 
