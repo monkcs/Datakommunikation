@@ -27,7 +27,6 @@ void A_send()
 	starttimer(0, 15.0);
 }
 
-/* A Send */
 void A_output(struct msg message)
 {
 	if (!transit)
@@ -36,14 +35,14 @@ void A_output(struct msg message)
 
 		buffer.seqnum++;
 		buffer.acknum++;
-		memcpy(buffer.payload, message.data, sizeof(message.data));
+		memcpy(buffer.payload, message.data, sizeof(buffer.payload));
+
 		certify(&buffer);
 
 		A_send();
 	}
 }
 
-/* A Recive */
 void A_input(struct pkt packet)
 {
 	if (verify(&packet))
@@ -56,14 +55,19 @@ void A_input(struct pkt packet)
 	}
 }
 
-/* called when A's timer goes off */
 void A_timerinterrupt() { A_send(); }
 
-void B_timerinterrupt() { }
-void B_init() { }
-void B_output(struct msg message) { }
+void B_print(const struct pkt* const packet)
+{
+	printf("Sequence: %i, payload: ", packet->seqnum);
 
-/* B Recive */
+	for (size_t i = 0; i < sizeof(packet->payload); i++)
+	{
+		printf("%c", packet->payload[i]);
+	}
+	printf("\n");
+}
+
 void B_input(struct pkt packet)
 {
 	if (verify(&packet))
@@ -72,15 +76,14 @@ void B_input(struct pkt packet)
 
 		if (packet.seqnum == B_sequence)
 		{
-			printf("Sequence: %i, payload: ", packet.seqnum);
-			for (size_t i = 0; i < 20; i++)
-			{
-				printf("%c", packet.payload[i]);
-			}
-			printf("\n");
-
+			B_print(&packet);
 			tolayer5(1, packet.payload);
+
 			B_sequence++;
 		}
 	}
 }
+
+void B_timerinterrupt() { }
+void B_init() { }
+void B_output(struct msg message) { }
