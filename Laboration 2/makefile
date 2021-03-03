@@ -1,4 +1,4 @@
-COMPILER = gcc -O3 -march=native -Wpedantic -Wall
+COMPILER = gcc -O3 -march=native -Wpedantic -Wall -Werror
 .PHONY: clean test
 
 reliable-transport.out: makefile stud.o checksum.o jim_corrected.c
