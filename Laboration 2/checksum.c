@@ -14,7 +14,7 @@ void certify(struct pkt* const package)
 		checksum += ((char*)package)[i];
 	}
 
-	package->checksum = checksum;
+	package->checksum = ~checksum;
 }
 
 bool verify(struct pkt* const package)
