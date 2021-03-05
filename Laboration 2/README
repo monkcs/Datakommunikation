@@ -1,3 +1,10 @@
+Information:
+    The checksum method is the same as the algorithm used in TCP.
+
+    The timeout is approximated with 5 time units from A -> B, then some
+    processing (~5 time units), and finally 5 time units from B -> A back.
+
+
 Requirements:
     make
     gcc
