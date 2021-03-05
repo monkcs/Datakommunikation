@@ -1,0 +1,12 @@
+Requirements:
+    make
+    gcc
+
+Build:
+    Run 'make'
+
+Run:
+    './reliable-transport.out'
+
+    Test:
+        'make test'
