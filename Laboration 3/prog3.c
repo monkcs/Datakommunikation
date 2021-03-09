@@ -59,7 +59,7 @@ void printevlist();
 float jimsrand();
 void insertevent(struct event* p);
 
-main()
+int main()
 {
 	struct event* eventptr;
 
@@ -126,7 +126,6 @@ main()
 
 terminate:
 	printf("\nSimulator terminated at t=%f, no packets in medium\n", clocktime);
-	system("pause");
 }
 
 void init() /* initialize the simulator */
