@@ -16,7 +16,6 @@ void rtinit0() { }
 void rtupdate0(struct rtpkt* rcvdpkt) { }
 
 void printdt0(struct distance_table* dtptr)
-
 {
 	printf("                via     \n");
 	printf("   D0 |    1     2    3 \n");
