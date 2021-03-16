@@ -5,16 +5,9 @@
             "name": "Debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/Laboration 2/reliable-transport.out",
-            "args": [
-                "20",
-                "0.2",
-                "0.2",
-                "10",
-                "2"
-            ],
+            "program": "${workspaceFolder}/Laboration 3/distance-routing.out",
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/Laboration 2/",
+            "cwd": "${workspaceFolder}/Laboration 3/",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",

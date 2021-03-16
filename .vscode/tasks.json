@@ -6,7 +6,7 @@
             "command": "make",
             "args": [],
             "options": {
-                "cwd": "${workspaceFolder}/Laboration 2"
+                "cwd": "${workspaceFolder}/Laboration 3"
             },
             "problemMatcher": [
                 "$gcc"
