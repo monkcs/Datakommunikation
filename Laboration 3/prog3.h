@@ -10,6 +10,11 @@ struct rtpkt
 	int mincost[4]; /* min cost to node 0 ... 3 */
 };
 
+void print0();
+void print1();
+void print2();
+void print3();
+
 void rtinit0(void);
 void rtinit1(void);
 void rtinit2(void);

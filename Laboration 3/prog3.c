@@ -126,6 +126,11 @@ int main()
 
 terminate:
 	printf("\nSimulator terminated at t=%f, no packets in medium\n", clocktime);
+
+	print0();
+	print1();
+	print2();
+	print3();
 }
 
 void init() /* initialize the simulator */
@@ -135,8 +140,10 @@ void init() /* initialize the simulator */
 	float jimsrand();
 	struct event* evptr;
 
-	printf("Enter TRACE:");
-	scanf("%d", &TRACE);
+	// printf("Enter TRACE:");
+	// scanf("%d", &TRACE);
+
+	TRACE = 2;
 
 	srand(9999); /* init random number generator */
 	sum = 0.0;	 /* test random number generator for students */
@@ -193,7 +200,6 @@ float jimsrand()
 /*****************************************************/
 
 void insertevent(struct event* p)
-
 {
 	struct event *q, *qold;
 
