@@ -16,6 +16,7 @@ struct distance_table dt2 = {{{3, 999, 999, 999}, {999, 1, 999, 999}, {999, 999,
 
 void printdt2(struct distance_table* dtptr)
 {
+	puts("");
 	printf("                via     \n");
 	printf("   D2 |    0     1    3 \n");
 	printf("  ----|-----------------\n");
