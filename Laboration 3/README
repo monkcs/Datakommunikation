@@ -1,0 +1,9 @@
+Requirements:
+    make
+    gcc
+
+Build:
+    Run 'make'
+
+Run:
+    './distance-routing.out'
