@@ -1,5 +1,6 @@
 COMPILER = gcc -O3 -march=native -Wpedantic -Wall -Werror
-.PHONY: clean test
+
+.PHONY: clean
 
 distance-routing.out: makefile node0.o node1.o node2.o node3.o prog3.c prog3.h
 	$(COMPILER) -fwhole-program -flto node0.o node1.o node2.o node3.o prog3.c -o $@
@@ -20,6 +21,3 @@ node3.o: makefile node3.c prog3.h
 
 clean:
 	rm *.out *.o
-
-test: distance-routing.out
-	./distance-routing.out
